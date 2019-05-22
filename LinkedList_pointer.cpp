@@ -13,12 +13,6 @@ NODE *createNode(int n)
     newNode = (NODE *) malloc(sizeof(NODE));
     newNode->data = n;
     newNode->next = NULL;
-}
-
-NODE *insertFirst(NODE *root, int data)
-{
-    NODE *newNode = createNode(data);
-    newNode->next = root;
     return newNode;
 }
 
@@ -105,13 +99,12 @@ NODE *deleteLast(NODE *root)
         return root;
     }
     NODE *curr = root;
-    while (curr->next != NULL)
+    while (curr->next->next != NULL)
     {
-        if (curr->next->next != NULL) curr = curr->next;
-        deleteNode(curr->next);
-        curr->next = NULL;
+        curr = curr->next; 
     }
-
+    deleteNode(curr->next);
+    curr->next = NULL;
     return root;
 }
 
@@ -122,9 +115,23 @@ void printList(NODE *root)
         printf("%d ", root->data);
         root = root->next;
     }
+    printf("\n");
 }
 
 int main()
 {
+    NODE *root = createNode(1);
+    root = insertFirst(root,0);
+    root = insertLast(root,3);
+    root = insertAnyPosition(root,2,2);
+    root = insertLast(root,5);
+    root = insertAnyPosition(root,4,4);
+    for(int i=5; i>=0; i--)
+    {
+        //root = deleteAnyPosition(root,i);
+        //root = deleteFirst(root);
+        root = deleteLast(root);
+        printList(root);
+    }
     return 0;
 }
